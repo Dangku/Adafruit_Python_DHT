@@ -43,12 +43,16 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Type of sensor, can be Adafruit_DHT.DHT11, Adafruit_DHT.DHT22, or Adafruit_DHT.AM2302.
-DHT_TYPE = Adafruit_DHT.DHT22
+DHT_TYPE = Adafruit_DHT.DHT11
 
 # Example of sensor connected to Raspberry Pi pin 23
-DHT_PIN  = 23
+#DHT_PIN  = 23
+
 # Example of sensor connected to Beaglebone Black pin P8_11
 #DHT_PIN  = 'P8_11'
+
+# Example of sensor connected to Bananapi M64 pin 231
+DHT_PIN  = 231
 
 # Google Docs OAuth credential JSON file.  Note that the process for authenticating
 # with Google docs has changed as of ~April 2015.  You _must_ use OAuth2 to log

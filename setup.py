@@ -79,6 +79,11 @@ elif platform == platform_detect.BEAGLEBONE_BLACK:
                                 ["source/_Beaglebone_Black_Driver.c", "source/common_dht_read.c", "source/Beaglebone_Black/bbb_dht_read.c", "source/Beaglebone_Black/bbb_mmio.c"],
                                 libraries=['rt'],
                                 extra_compile_args=['-std=gnu99']))
+elif platform == platform_detect.BANANAPI_M64:
+    extensions.append(Extension("Adafruit_DHT.Bananapi_M64_Driver",
+                                ["source/_Bananapi_M64_Driver.c", "source/common_dht_read.c", "source/Bananapi_M64/m64_dht_read.c", "source/Bananapi_M64/m64_mmio.c"],
+                                libraries=['rt'],
+                                extra_compile_args=['-std=gnu99']))
 elif platform == 'TEST':
     extensions.append(Extension("Adafruit_DHT.Test_Driver",
                                 ["source/_Test_Driver.c", "source/Test/test_dht_read.c"],

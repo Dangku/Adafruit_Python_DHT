@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # Copyright (c) 2014 Adafruit Industries
 # Author: Tony DiCola
 
@@ -20,33 +18,23 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-import Adafruit_DHT
+from . import common
+from . import Bananapi_M64_Driver as driver
 
-# Sensor should be set to Adafruit_DHT.DHT11,
-# Adafruit_DHT.DHT22, or Adafruit_DHT.AM2302.
-sensor = Adafruit_DHT.DHT11
-
-# Example using a Beaglebone Black with DHT sensor
-# connected to pin P8_11.
-#pin = 'P8_11'
-
-# Example using a Raspberry Pi with DHT sensor
-# connected to GPIO23.
-#pin = 23
-
-# Example using a Bananapi M64 with DHT sensor
-# connected to GPIO231.
-pin = 231
-
-# Try to grab a sensor reading.  Use the read_retry method which will retry up
-# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-
-# Note that sometimes you won't get a reading and
-# the results will be null (because Linux can't
-# guarantee the timing of calls to read the sensor).
-# If this happens try again!
-if humidity is not None and temperature is not None:
-    print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-else:
-    print('Failed to get reading. Try again!')
+def read(sensor, pin):
+    # Validate pin is a valid GPIO.
+    if pin is None or int(pin) < 0 or int(pin) > 364:
+        raise ValueError('Pin must be a valid GPIO number 0 to 364.')
+    # Get a reading from C driver code.
+    result, humidity, temp = driver.read(sensor, int(pin))
+    if result in common.TRANSIENT_ERRORS:
+        # Signal no result could be obtained, but the caller can retry.
+        return (None, None)
+    elif result == common.DHT_ERROR_GPIO:
+        raise RuntimeError(
+            'Error accessing GPIO. If `/dev/gpiomem` does not exist '
+            'run this program as root or sudo.')
+    elif result != common.DHT_SUCCESS:
+        # Some kind of error occured.
+        raise RuntimeError('Error calling DHT test driver read: {0}'.format(result))
+    return (humidity, temp)
