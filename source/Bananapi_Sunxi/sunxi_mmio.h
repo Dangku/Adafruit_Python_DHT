@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 // Simple fast memory-mapped GPIO library for the Raspberry Pi.
-#ifndef M64_MMIO_H
-#define M64_MMIO_H
+#ifndef Sunxi_MMIO_H
+#define Sunxi_MMIO_H
 
 #include <stdint.h>
 
@@ -42,10 +42,10 @@
 #define MAP_SIZE              (4096*2)
 #define MAP_MASK              (MAP_SIZE - 1)
 
-extern volatile uint32_t* m64_mmio_gpio_ah;
-extern volatile uint32_t* m64_mmio_gpio_lm;
+extern volatile uint32_t* sunxi_mmio_gpio_ah;
+extern volatile uint32_t* sunxi_mmio_gpio_lm;
 
-int m64_mmio_init_gpio(int pin);
+int sunxi_mmio_init_gpio(int pin);
 
 static uint32_t sunxi_gpio_readl(uint32_t addr, int bank)
 {
@@ -55,9 +55,9 @@ static uint32_t sunxi_gpio_readl(uint32_t addr, int bank)
 
   /* DK, for PL and PM */
   if(bank == 11)
-      val = *(m64_mmio_gpio_lm+ mmap_seek);
+      val = *(sunxi_mmio_gpio_lm+ mmap_seek);
   else
-      val = *(m64_mmio_gpio_ah + mmap_seek);
+      val = *(sunxi_mmio_gpio_ah + mmap_seek);
 
   return val;
 }
@@ -68,9 +68,9 @@ static void sunxi_gpio_writel(uint32_t val, uint32_t addr, int bank)
   uint32_t mmap_seek = ((addr - mmap_base) >> 2);
 
   if(bank == 11)
-      *(m64_mmio_gpio_lm+ mmap_seek) = val;
+      *(sunxi_mmio_gpio_lm+ mmap_seek) = val;
   else
-      *(m64_mmio_gpio_ah + mmap_seek) = val;
+      *(sunxi_mmio_gpio_ah + mmap_seek) = val;
 }
 
 static void sunxi_set_pin_function(const int gpio_number, int mode)
@@ -138,23 +138,23 @@ static void sunxi_set_pin_level(const int gpio_number, int value)
 }
 
 
-static inline void m64_mmio_set_input(const int gpio_number) {
+static inline void sunxi_mmio_set_input(const int gpio_number) {
   sunxi_set_pin_function(gpio_number, INPUT);
 }
 
-static inline void m64_mmio_set_output(const int gpio_number) {
+static inline void sunxi_mmio_set_output(const int gpio_number) {
   sunxi_set_pin_function(gpio_number, OUTPUT);
 }
 
-static inline void m64_mmio_set_high(const int gpio_number) {
+static inline void sunxi_mmio_set_high(const int gpio_number) {
   sunxi_set_pin_level(gpio_number, HIGH);
 }
 
-static inline void m64_mmio_set_low(const int gpio_number) {
+static inline void sunxi_mmio_set_low(const int gpio_number) {
   sunxi_set_pin_level(gpio_number, LOW);
 }
 
-static inline uint32_t m64_mmio_input(const int gpio_number) {
+static inline uint32_t sunxi_mmio_input(const int gpio_number) {
   return sunxi_get_pin_level(gpio_number);
 }
 

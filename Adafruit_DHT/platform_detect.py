@@ -31,22 +31,34 @@ import re
 UNKNOWN          = 0
 RASPBERRY_PI     = 1
 BEAGLEBONE_BLACK = 2
-BANANAPI_M64	 = 3
+BANANAPI_SUNXI	 = 3
 
 
 def platform_detect():
     """Detect if running on the Raspberry Pi, Bananapi or Beaglebone Black and return the
-    platform type.  Will return RASPBERRY_PI, BANANAPI_M64, BEAGLEBONE_BLACK, or UNKNOWN."""
+    platform type.  Will return RASPBERRY_PI, BANANAPI_SUNXI, BEAGLEBONE_BLACK, or UNKNOWN."""
     # Handle Raspberry Pi
     pi = pi_version()
     if pi is not None:
         return RASPBERRY_PI
 
-    # Handle Beaglebone Black
-    # TODO: Check the Beaglebone Black /proc/cpuinfo value instead of reading
-    # the platform.
+    # TODO: Check the /proc/cpuinfo value instead of reading the platform.
     plat = platform.platform()
-    if plat.lower().find('armv7l-with-debian') > -1:
+    # Handle Bananapi
+    if plat.upper().find('BPI-M64') > -1:
+        return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M2U') > -1:
+        return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M2P') > -1:
+        return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M3') > -1:
+        return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M2M') > -1:
+        return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M1') > -1:
+        return BANANAPI_SUNXI
+    # Handle Beaglebone Black
+    elif plat.lower().find('armv7l-with-debian') > -1:
         return BEAGLEBONE_BLACK
     elif plat.lower().find('armv7l-with-ubuntu') > -1:
         return BEAGLEBONE_BLACK
@@ -54,9 +66,6 @@ def platform_detect():
         return BEAGLEBONE_BLACK
     elif plat.lower().find('armv7l-with-arch') > -1:
         return BEAGLEBONE_BLACK
-    # Handle Bananapi
-    elif plat.upper().find('BPI-M64') > -1:
-    	return BANANAPI_M64
 
     # Couldn't figure out the platform, just return unknown.
     return UNKNOWN

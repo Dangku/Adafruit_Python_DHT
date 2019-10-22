@@ -51,7 +51,7 @@ DHT_TYPE = Adafruit_DHT.DHT11
 # Example of sensor connected to Beaglebone Black pin P8_11
 #DHT_PIN  = 'P8_11'
 
-# Example of sensor connected to Bananapi M64 pin 231
+# Example of sensor connected to Bananapi Sunxi pin 231
 DHT_PIN  = 231
 
 # Google Docs OAuth credential JSON file.  Note that the process for authenticating

@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 from . import common
-from . import Bananapi_M64_Driver as driver
+from . import Bananapi_Sunxi_Driver as driver
 
 def read(sensor, pin):
     # Validate pin is a valid GPIO.

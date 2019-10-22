@@ -26,17 +26,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "m64_mmio.h"
+#include "sunxi_mmio.h"
 
 #define GPIO_LENGTH 4096
 #define GPIOAH_ADDR 0x01C20000
 #define GPIOLM_ADDR 0x01f02000
 
 // Cache memory-mapped GPIO addresses.
-volatile uint32_t* m64_mmio_gpio_ah = NULL;
-volatile uint32_t* m64_mmio_gpio_lm = NULL;
+volatile uint32_t* sunxi_mmio_gpio_ah = NULL;
+volatile uint32_t* sunxi_mmio_gpio_lm = NULL;
 
-int m64_mmio_init_gpio(int pin) {
+int sunxi_mmio_init_gpio(int pin) {
   // Validate input parameters.
   if (pin < 0 || pin > 364) {
     return MMIO_ERROR_ARGUMENT;
@@ -56,24 +56,24 @@ int m64_mmio_init_gpio(int pin) {
   }
   
   // Map GPIO memory if its hasn't been mapped already.
-  if (m64_mmio_gpio_ah == NULL) {
+  if (sunxi_mmio_gpio_ah == NULL) {
     // Map GPIO memory to location in process space.
-    m64_mmio_gpio_ah = (uint32_t*)mmap(NULL, GPIO_LENGTH, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIOAH_ADDR);
+    sunxi_mmio_gpio_ah = (uint32_t*)mmap(NULL, GPIO_LENGTH, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIOAH_ADDR);
     
-    if (m64_mmio_gpio_ah == MAP_FAILED) {
+    if (sunxi_mmio_gpio_ah == MAP_FAILED) {
       // Don't save the result if the memory mapping failed.
-      m64_mmio_gpio_ah = NULL;
+      sunxi_mmio_gpio_ah = NULL;
       return MMIO_ERROR_MMAP;
     }
   }
 
-  if (m64_mmio_gpio_lm == NULL) {
+  if (sunxi_mmio_gpio_lm == NULL) {
     // Map GPIO memory to location in process space.
-    m64_mmio_gpio_lm = (uint32_t*)mmap(NULL, GPIO_LENGTH, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIOLM_ADDR);
+    sunxi_mmio_gpio_lm = (uint32_t*)mmap(NULL, GPIO_LENGTH, PROT_READ | PROT_WRITE, MAP_SHARED, fd, GPIOLM_ADDR);
     
-    if (m64_mmio_gpio_lm == MAP_FAILED) {
+    if (sunxi_mmio_gpio_lm == MAP_FAILED) {
       // Don't save the result if the memory mapping failed.
-      m64_mmio_gpio_lm = NULL;
+      sunxi_mmio_gpio_lm = NULL;
       return MMIO_ERROR_MMAP;
     }
   }

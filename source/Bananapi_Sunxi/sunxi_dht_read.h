@@ -18,8 +18,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#ifndef M64_DHT_READ_H
-#define M64_DHT_READ_H
+#ifndef Sunxi_DHT_READ_H
+#define Sunxi_DHT_READ_H
 
 #include "../common_dht_read.h"
 
@@ -27,6 +27,6 @@
 // returned in the provided parameters. If a successfull reading could be made a value of 0 
 // (DHT_SUCCESS) will be returned.  If there was an error reading the sensor a negative value will
 // be returned.  Some errors can be ignored and retried, specifically DHT_ERROR_TIMEOUT or DHT_ERROR_CHECKSUM.
-int m64_dht_read(int sensor, int pin, float* humidity, float* temperature);
+int sunxi_dht_read(int sensor, int pin, float* humidity, float* temperature);
 
 #endif

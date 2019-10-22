@@ -34,7 +34,7 @@ sensor = Adafruit_DHT.DHT11
 # connected to GPIO23.
 #pin = 23
 
-# Example using a Bananapi M64 with DHT sensor
+# Example using a Bananapi Sunxi with DHT sensor
 # connected to GPIO231.
 pin = 231
 

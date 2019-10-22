@@ -20,10 +20,10 @@
 // SOFTWARE.
 #include <Python.h>
 
-#include "Bananapi_M64/m64_dht_read.h"
+#include "Bananapi_Sunxi/sunxi_dht_read.h"
 
 // Wrap calling dht_read function and expose it as a DHT.read Python module & function.
-static PyObject* Bananapi_M64_Driver_read(PyObject *self, PyObject *args)
+static PyObject* Bananapi_Sunxi_Driver_read(PyObject *self, PyObject *args)
 {
 	// Parse sensor and pin integer arguments.
     int sensor, pin;
@@ -32,21 +32,21 @@ static PyObject* Bananapi_M64_Driver_read(PyObject *self, PyObject *args)
     }
     // Call dht_read and return result code, humidity, and temperature.
     float humidity = 0, temperature = 0;
-    int result = m64_dht_read(sensor, pin, &humidity, &temperature);
+    int result = sunxi_dht_read(sensor, pin, &humidity, &temperature);
     return Py_BuildValue("iff", result, humidity, temperature);
 }
 
 // Boilerplate python module method list and initialization functions below.
 
 static PyMethodDef module_methods[] = {
-    {"read", Bananapi_M64_Driver_read, METH_VARARGS, "Read DHT sensor value on a Bananapi M64."},
+    {"read", Bananapi_Sunxi_Driver_read, METH_VARARGS, "Read DHT sensor value on a Bananapi Sunxi."},
     {NULL, NULL, 0, NULL}
 };
 
 #if PY_MAJOR_VERSION > 2
-static struct PyModuleDef m64_dht_module = {
+static struct PyModuleDef sunxi_dht_module = {
     PyModuleDef_HEAD_INIT,
-    "Bananapi_M64_Driver",   // name of module
+    "Bananapi_Sunxi_Driver",   // name of module
     NULL,                      // module documentation, may be NULL
     -1,                        // size of per-interpreter state of the module, or -1 if the module keeps state in global variables.
     module_methods
@@ -54,15 +54,15 @@ static struct PyModuleDef m64_dht_module = {
 #endif
 
 #if PY_MAJOR_VERSION > 2
-PyMODINIT_FUNC PyInit_Bananapi_M64_Driver(void)
+PyMODINIT_FUNC PyInit_Bananapi_Sunxi_Driver(void)
 #else
-PyMODINIT_FUNC initBananapi_M64_Driver(void)
+PyMODINIT_FUNC initBananapi_Sunxi_Driver(void)
 #endif
 {    
     #if PY_MAJOR_VERSION > 2
-      PyObject* module = PyModule_Create(&m64_dht_module);
+      PyObject* module = PyModule_Create(&sunxi_dht_module);
     #else
-      Py_InitModule("Bananapi_M64_Driver", module_methods);
+      Py_InitModule("Bananapi_Sunxi_Driver", module_methods);
     #endif
 
     #if PY_MAJOR_VERSION > 2
