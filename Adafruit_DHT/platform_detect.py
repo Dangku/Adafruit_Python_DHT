@@ -51,6 +51,8 @@ def platform_detect():
         return BANANAPI_SUNXI
     elif plat.upper().find('BPI-M2P') > -1:
         return BANANAPI_SUNXI
+    elif plat.upper().find('BPI-M2Z') > -1:
++        return BANANAPI_SUNXI
     elif plat.upper().find('BPI-M3') > -1:
         return BANANAPI_SUNXI
     elif plat.upper().find('BPI-M2M') > -1:
