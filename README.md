@@ -15,7 +15,7 @@ Installing
 
 ### Dependencies
 
-For all platforms (Raspberry Pi and Beaglebone Black) make sure your system is
+For all platforms (Bananapi, Raspberry Pi and Beaglebone Black) make sure your system is
 able to compile and download Python extensions with **pip**:
 
 On Raspbian or Beaglebone Black's Debian/Ubuntu image you can ensure your
